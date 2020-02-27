@@ -8,6 +8,15 @@ import java.util.Date;
  */
 public class DateUtils {
 
+    /**
+     * 获取当前时间的时间戳
+     *
+     * @return 时间戳
+     */
+    public static Long getCurrentMillisSecond() {
+        return new Date().getTime();
+    }
+
 
     /**
      * 指定时间的前或者后几天

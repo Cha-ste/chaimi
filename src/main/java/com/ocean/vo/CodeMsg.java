@@ -13,7 +13,7 @@ public class CodeMsg {
     public static CodeMsg BAD_REQUEST = new CodeMsg(400101, "http请求参数不全");
     public static CodeMsg ILLEGAL_ARGUMENT = new CodeMsg(400102, "参数非法");
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
-    public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务器异常");
+    public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务器异常，请联系管理员");
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常:%s");
     public static CodeMsg DATA_NOT_FOUND = new CodeMsg(500102, "数据不存在");
 
@@ -25,6 +25,8 @@ public class CodeMsg {
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(5002004, "密码不正确");
 
     //其他模块 5003xx
+    public static CodeMsg FILE_IS_EMPTY = new CodeMsg(5003001, "文件为空");
+    public static CodeMsg FILE_SIZE_EXCEEDED = new CodeMsg(5003002, "文件大小不能超过10MB");
 
     public CodeMsg(int code, String msg) {
         this.code = code;

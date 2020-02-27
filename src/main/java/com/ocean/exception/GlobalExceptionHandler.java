@@ -11,6 +11,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -107,5 +108,18 @@ public class GlobalExceptionHandler {
         logger.error("【" + e.getMessage() + "】");
         return ResultBean.error(CodeMsg.DATA_NOT_FOUND);
     }
+    /**
+     * 上传的文件为空
+     */
+    @ExceptionHandler(FileEmptyException.class)
+    public ResultBean<String> fileEmptyExceptionHandler(FileEmptyException e) {
+        logger.error("【" + e.getMessage() + "】");
+        return ResultBean.error(CodeMsg.FILE_IS_EMPTY);
+    }
 
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResultBean<String> fileEmptyExceptionHandler(MaxUploadSizeExceededException e) {
+        logger.error("【" + e.getMessage() + "】");
+        return ResultBean.error(CodeMsg.FILE_SIZE_EXCEEDED);
+    }
 }

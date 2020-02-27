@@ -219,4 +219,19 @@ public class RedisService {
         }
         return true;
     }
+
+    public Boolean delete(UserPrefix prefix, String key) {
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            String realKey = prefix.prefix() + key;
+            jedis.del(realKey);
+        } catch (Exception e){
+            e.getStackTrace();
+            return false;
+        }finally {
+            returnToPool(jedis);
+        }
+        return true;
+    }
 }

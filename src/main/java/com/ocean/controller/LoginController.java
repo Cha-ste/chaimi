@@ -5,6 +5,7 @@ import com.ocean.redis.RedisService;
 import com.ocean.redis.UserPrefix;
 import com.ocean.service.UserService;
 import com.ocean.utils.Constants;
+import com.ocean.utils.JedisUtils;
 import com.ocean.utils.TokenUtils;
 import com.ocean.vo.CodeMsg;
 import com.ocean.vo.LoginVo;
@@ -13,8 +14,10 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,9 +57,20 @@ public class LoginController {
         redisService.set(UserPrefix.getByToken, token, user.getId(), Constants.TOKEN_EXPIRED_SECOND);
 //        redisService.set(UserPrefix.getById, user.getId(), user);
         User user1 = redisService.get(UserPrefix.getById, user.getId(), User.class);
-        System.out.println(user1);
-
 
         return ResultBean.success(token);
+    }
+
+    @GetMapping("logout")
+    public ResultBean<String> logout (HttpServletRequest request, @RequestParam String mobile) {
+
+        User user = userService.getUserByMobile(mobile);
+        if (user == null) {
+            return ResultBean.error(CodeMsg.NO_USER);
+        }
+
+        redisService.delete(UserPrefix.getByToken, request.getHeader("token"));
+
+        return ResultBean.success("退出成功");
     }
 }
