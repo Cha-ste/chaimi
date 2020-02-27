@@ -34,7 +34,7 @@ public class ${name}ServiceImpl implements ${name}Service{
 
     @Override
     public void save(${name} model) {
-        int success = mapper.insertSelective(model);
+        int success = mapper.insert(model);
         if (success <= 0) {
             logger.error("[add${name}]add ${name}={} fail",  model.toString());
             throw new RuntimeException("Add data fail");
@@ -45,7 +45,7 @@ public class ${name}ServiceImpl implements ${name}Service{
 
     @Override
     public void update(${name} model) {
-        int success = mapper.updateByPrimaryKeySelective(model);
+        int success = mapper.update(model);
         if (success <= 0) {
             logger.error("[update${name}]update ${name}={} fail",  model.toString());
             throw new RuntimeException("Modify data fail");
@@ -71,16 +71,6 @@ public class ${name}ServiceImpl implements ${name}Service{
         PageHelper.startPage(pageNum, pageSize);
 
         return new PageInfo<>(mapper.query(paramMap));
-    }
-
-    @Override
-    public int getCount() {
-        return mapper.getCount();
-    }
-
-    @Override
-    public int queryCount(HashMap<String, Object> paramMap) {
-        return mapper.queryCount(paramMap);
     }
 
 }

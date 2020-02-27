@@ -5,12 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ${url};
 import ${serviceUrl}.${name}Service;
 import com.ocean.vo.ResultBean;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import com.github.pagehelper.PageInfo;
 
 @RestController("${capitalName}Controller")
 @RequestMapping("/${capitalName}")
+@Api(tags="")
 public class ${name}Controller {
 
     public static Logger logger = LoggerFactory.getLogger(${name}Controller.class);
@@ -26,8 +28,9 @@ public class ${name}Controller {
     @Autowired
     private ${name}Service service;
 
-    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultBean<${name}> get(${primaryType} ${primaryKey}) {
+    @GetMapping(value = "/get")
+    @ApiOperation(value="")
+    public ResultBean<${name}> get(@RequestParam ${primaryType} ${primaryKey}) {
         try {
             ${name} entity=service.get${name}(id);
             return ResultBean.success(entity);
@@ -37,12 +40,11 @@ public class ${name}Controller {
         }
     }
 
-    @GetMapping(value = "query/{pageNum}/{pageSize}")
-    @ResponseBody
-    @SuppressWarnings("unchecked")
+    @GetMapping(value = "query")
+    @ApiOperation(value="")
     public ResultBean<PageInfo<${name}>> query(
-        int pageNum,
-        int pageSize,
+        @RequestParam(defaultValue = "1") Integer pageNum,
+        @RequestParam(defaultValue = "10") Integer pageSize,
         @RequestParam(required = false) String param) {
         HashMap<String, Object> paramMap = new HashMap<>();
         if (StringUtils.isEmpty(param)) {
@@ -58,7 +60,8 @@ public class ${name}Controller {
         return ResultBean.success(pageInfo);
     }
 
-    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/save")
+    @ApiOperation(value="")
     public ResultBean save(@RequestBody ${name} model) {
         try {
             ${name} record = new ${name}();
@@ -78,8 +81,9 @@ public class ${name}Controller {
         return ResultBean.success("保存成功");
     }
 
-    @DeleteMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultBean del(${primaryType} ${primaryKey}) {
+    @PostMapping(value = "/delete")
+    @ApiOperation(value="")
+    public ResultBean del(@RequestParam ${primaryType} ${primaryKey}) {
         try {
             service.del(${primaryKey});
         } catch (Exception e) {

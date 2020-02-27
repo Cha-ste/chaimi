@@ -16,9 +16,6 @@ public interface ${name}Service {
 
     void del(${primaryType} ${primaryKey});
 
-    int getCount();
-
     PageInfo<${name}> query(int currentPage, int itemsPerPage, HashMap<String, Object> paramMap);
-    int queryCount(HashMap<String, Object> paramMap);
 
 }
