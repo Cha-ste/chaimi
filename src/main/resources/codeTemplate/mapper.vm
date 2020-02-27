@@ -15,4 +15,6 @@ public interface ${name}Mapper {
     int update(${name} record);
 
     List<${name}> query(HashMap<String, Object> paramMap);
+
+    void deleteBatch(@Param("ids") List<Integer> ids);
 }

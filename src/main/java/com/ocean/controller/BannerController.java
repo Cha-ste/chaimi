@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 @RestController("BannerController")
@@ -32,7 +33,7 @@ public class BannerController {
     private BannerService service;
 
     @GetMapping(value = "/get")
-    @ApiOperation(value = "根据id获取banner")
+    @ApiOperation(value = "获取banner详情")
     public ResultBean<Banner> get(@RequestParam Integer id) {
         Banner entity = service.getBanner(id);
         return ResultBean.success(entity);
@@ -76,6 +77,13 @@ public class BannerController {
     @ApiOperation(value = "删除banner")
     public ResultBean del(@RequestParam Integer id) {
         service.del(id);
+        return ResultBean.success("删除成功");
+    }
+
+    @PostMapping(value = "/deleteBatch")
+    @ApiOperation(value = "批量删除banner")
+    public ResultBean deleteBatch(@RequestParam Integer[] ids) {
+        service.deleteBatch(Arrays.asList(ids));
         return ResultBean.success("删除成功");
     }
 

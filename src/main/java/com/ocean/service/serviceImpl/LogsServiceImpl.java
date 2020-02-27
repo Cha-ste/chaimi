@@ -1,32 +1,33 @@
 package com.ocean.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.ocean.entity.Logs;
 import com.ocean.exception.DataNotFoundException;
+import com.ocean.mapper.LogsMapper;
+import com.ocean.service.LogsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
-import com.ocean.entity.Banner;
-import com.ocean.service.BannerService;
-import com.ocean.mapper.BannerMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 @Service
-public class BannerServiceImpl implements BannerService{
+public class LogsServiceImpl implements LogsService{
 
-    private static final Logger logger = LoggerFactory.getLogger(BannerServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(LogsServiceImpl.class);
 
     @Autowired
-    private BannerMapper mapper;
+    private LogsMapper mapper;
 
     @Override
-    public Banner getBanner(Integer id) {
+    public Logs getLogs(Integer id) {
 
-        Banner model = mapper.selectByPrimaryKey(id);
+        Logs model = mapper.selectByPrimaryKey(id);
         if (model == null) {
-            logger.error("[getBanner]delete Banner id={} fail", id);
+            logger.error("[getLogs]delete Logs id={} fail", id);
             throw new DataNotFoundException("GET data fail");
         }
         return model;
@@ -34,10 +35,10 @@ public class BannerServiceImpl implements BannerService{
     }
 
     @Override
-    public void save(Banner model) {
+    public void save(Logs model) {
         int success = mapper.insert(model);
         if (success <= 0) {
-            logger.error("[addBanner]add Banner={} fail",  model.toString());
+            logger.error("[addLogs]add Logs={} fail",  model.toString());
             throw new DataNotFoundException("Add data fail");
         }
         return;
@@ -45,10 +46,10 @@ public class BannerServiceImpl implements BannerService{
     }
 
     @Override
-    public void update(Banner model) {
+    public void update(Logs model) {
         int success = mapper.update(model);
         if (success <= 0) {
-            logger.error("[updateBanner]update Banner={} fail",  model.toString());
+            logger.error("[updateLogs]update Logs={} fail",  model.toString());
             throw new DataNotFoundException("Modify data fail");
         }
         return;
@@ -60,8 +61,8 @@ public class BannerServiceImpl implements BannerService{
 
         int success = mapper.deleteByPrimaryKey(id);
         if (success <= 0) {
-            logger.error("[deleteBanner]delete Banner id={} fail", id);
-            throw new DataNotFoundException("数据不存在");
+            logger.error("[deleteLogs]delete Logs id={} fail", id);
+            throw new DataNotFoundException("Del data fail");
         }
         return;
 
@@ -73,7 +74,7 @@ public class BannerServiceImpl implements BannerService{
     }
 
     @Override
-    public PageInfo<Banner> query(int pageNum, int pageSize, HashMap<String, Object> paramMap) {
+    public PageInfo<Logs> query(int pageNum, int pageSize, HashMap<String, Object> paramMap) {
         PageHelper.startPage(pageNum, pageSize);
 
         return new PageInfo<>(mapper.query(paramMap));

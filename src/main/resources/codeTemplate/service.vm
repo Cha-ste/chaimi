@@ -18,4 +18,5 @@ public interface ${name}Service {
 
     PageInfo<${name}> query(int currentPage, int itemsPerPage, HashMap<String, Object> paramMap);
 
+    void deleteBatch(List<Integer> ids);
 }

@@ -42,7 +42,7 @@ public class ${name}Controller {
         @RequestParam(defaultValue = "10") Integer pageSize,
         @RequestParam(required = false) String param) {
         HashMap<String, Object> paramMap = new HashMap<>();
-        if (StringUtils.isBlank(param)) {
+        if (!StringUtils.isBlank(param)) {
             try {
                 paramMap = new ObjectMapper().readValue(param, HashMap.class);
             } catch (IOException e) {

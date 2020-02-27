@@ -17,4 +17,6 @@ public interface BannerMapper {
     int update(Banner record);
 
     List<Banner> query(@Param("map")HashMap<String, Object> paramMap);
+
+    void deleteBatch(@Param("ids") List<Integer> ids);
 }

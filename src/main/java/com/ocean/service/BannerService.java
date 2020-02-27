@@ -18,4 +18,5 @@ public interface BannerService {
 
     PageInfo<Banner> query(int currentPage, int itemsPerPage, HashMap<String, Object> paramMap);
 
+    void deleteBatch(List<Integer> ids);
 }

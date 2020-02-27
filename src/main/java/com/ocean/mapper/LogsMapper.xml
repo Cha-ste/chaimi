@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocean.mapper.LogsMapper">
+  <resultMap id="BaseResultMap" type="com.ocean.entity.Logs">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="business" jdbcType="VARCHAR" property="business" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="reserve" jdbcType="VARCHAR" property="reserve" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from logs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ocean.entity.Logs">
+    insert into logs (operator, business,
+      operate_time, reserve)
+    values (#{operator,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR},
+      #{operateTime,jdbcType=TIMESTAMP}, #{reserve,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ocean.entity.Logs">
+    update logs
+    set operator = #{operator,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      reserve = #{reserve,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, operator, business, operate_time, reserve
+    from logs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, operator, business, operate_time, reserve
+    from logs
+  </select>
+  <delete id="deleteBatch">
+    delete from logs
+    where id in
+    <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+
+  <select id="query" parameterType="map" resultMap="BaseResultMap">
+    select * from logs
+    where 1 = 1
+    <if test="map != null">
+      <if test="map.business != null and map.business != ''">
+        and business like concat('%', #{map.business}, '%')
+      </if>
+    </if>
+  </select>
+</mapper>

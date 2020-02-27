@@ -11,6 +11,7 @@ import com.ocean.vo.CodeMsg;
 import com.ocean.vo.LoginVo;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class LoginController {
      * 用户登录
      */
     @GetMapping("login")
+    @ApiOperation("用户登录")
     public ResultBean<String> login (@Valid LoginVo loginVo) {
 
         User user = userService.getUserByMobile(loginVo.getMobile());
@@ -62,6 +64,7 @@ public class LoginController {
     }
 
     @GetMapping("logout")
+    @ApiOperation("退出登录")
     public ResultBean<String> logout (HttpServletRequest request, @RequestParam String mobile) {
 
         User user = userService.getUserByMobile(mobile);
