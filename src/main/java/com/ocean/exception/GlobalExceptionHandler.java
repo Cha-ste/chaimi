@@ -99,4 +99,13 @@ public class GlobalExceptionHandler {
         return ResultBean.error(CodeMsg.SERVER_ERROR);
     }
 
+    /**
+     * 数据不存在异常
+     */
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResultBean<String> dataNotFoundExceptionHandler(DataNotFoundException e) {
+        logger.error("【" + e.getMessage() + "】");
+        return ResultBean.error(CodeMsg.DATA_NOT_FOUND);
+    }
+
 }

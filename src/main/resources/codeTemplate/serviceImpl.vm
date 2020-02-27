@@ -26,7 +26,7 @@ public class ${name}ServiceImpl implements ${name}Service{
         ${name} model = mapper.selectByPrimaryKey(${primaryKey});
         if (model == null) {
             logger.error("[get${name}]delete ${name} ${primaryKey}={} fail", ${primaryKey});
-            throw new RuntimeException("GET data fail");
+            throw new DataNotFoundException("GET data fail");
         }
         return model;
 
@@ -37,7 +37,7 @@ public class ${name}ServiceImpl implements ${name}Service{
         int success = mapper.insert(model);
         if (success <= 0) {
             logger.error("[add${name}]add ${name}={} fail",  model.toString());
-            throw new RuntimeException("Add data fail");
+            throw new DataNotFoundException("Add data fail");
         }
         return;
 
@@ -48,7 +48,7 @@ public class ${name}ServiceImpl implements ${name}Service{
         int success = mapper.update(model);
         if (success <= 0) {
             logger.error("[update${name}]update ${name}={} fail",  model.toString());
-            throw new RuntimeException("Modify data fail");
+            throw new DataNotFoundException("Modify data fail");
         }
         return;
 
@@ -60,7 +60,7 @@ public class ${name}ServiceImpl implements ${name}Service{
         int success = mapper.deleteByPrimaryKey(${primaryKey});
         if (success <= 0) {
             logger.error("[delete${name}]delete ${name} ${primaryKey}={} fail", ${primaryKey});
-            throw new RuntimeException("Del data fail");
+            throw new DataNotFoundException("Del data fail");
         }
         return;
 

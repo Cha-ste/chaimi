@@ -31,13 +31,8 @@ public class ${name}Controller {
     @GetMapping(value = "/get")
     @ApiOperation(value="")
     public ResultBean<${name}> get(@RequestParam ${primaryType} ${primaryKey}) {
-        try {
-            ${name} entity=service.get${name}(id);
-            return ResultBean.success(entity);
-        } catch (Exception e) {
-            logger.error("Fail:", e);
-            return ResultBean.ERROR;
-        }
+        ${name} entity=service.get${name}(id);
+        return ResultBean.success(entity);
     }
 
     @GetMapping(value = "query")
@@ -63,33 +58,23 @@ public class ${name}Controller {
     @PostMapping(value = "/save")
     @ApiOperation(value="")
     public ResultBean save(@RequestBody ${name} model) {
-        try {
-            ${name} record = new ${name}();
-            BeanUtils.copyProperties(model, record);
+        ${name} record = new ${name}();
+        BeanUtils.copyProperties(model, record);
 
-            if (record.getId() == null) {
-                //TODO 设置主键
-                service.save(record);
-            } else {
-                service.update(record);
-            }
-
-        } catch (Exception e) {
-            logger.error("Fail:", e);
-            return ResultBean.ERROR;
+        if (record.getId() == null) {
+            //TODO 设置主键
+            service.save(record);
+        } else {
+            service.update(record);
         }
+
         return ResultBean.success("保存成功");
     }
 
     @PostMapping(value = "/delete")
     @ApiOperation(value="")
     public ResultBean del(@RequestParam ${primaryType} ${primaryKey}) {
-        try {
-            service.del(${primaryKey});
-        } catch (Exception e) {
-            logger.error("Fail:", e);
-            return ResultBean.ERROR;
-        }
+        service.del(${primaryKey});
         return ResultBean.success("删除成功");
     }
 
