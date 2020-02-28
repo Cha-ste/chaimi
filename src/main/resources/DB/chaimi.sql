@@ -59,3 +59,24 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES ('1', '13074488946', '123456', '1', 'xxx@ZH.com', 'step by step', 'ocean', 'GuangDong');
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`chaimi` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `chaimi`;
+
+/*Table structure for table `logs` */
+
+DROP TABLE IF EXISTS `logs`;
+
+CREATE TABLE `logs` (
+                        `id` int(11) NOT NULL AUTO_INCREMENT,
+                        `operator` varchar(20) DEFAULT NULL COMMENT '操作者',
+                        `business` varchar(20) DEFAULT NULL COMMENT '业务名称',
+                        `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
+                        `reserve` varchar(20) DEFAULT NULL COMMENT '预留字段',
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4;
+
+/*Data for the table `logs` */
+
+insert  into `logs`(`id`,`operator`,`business`,`operate_time`,`reserve`) values (1,'ocean','添加日志','2020-02-27 08:00:00',NULL),(2,'ocean','添加日志2','2020-02-27 08:00:00',NULL);
