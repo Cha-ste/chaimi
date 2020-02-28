@@ -69,14 +69,28 @@ USE `chaimi`;
 DROP TABLE IF EXISTS `logs`;
 
 CREATE TABLE `logs` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `operator` varchar(20) DEFAULT NULL COMMENT '操作者',
-                        `business` varchar(20) DEFAULT NULL COMMENT '业务名称',
-                        `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
-                        `reserve` varchar(20) DEFAULT NULL COMMENT '预留字段',
-                        PRIMARY KEY (`id`)
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `operator` varchar(20) DEFAULT NULL COMMENT '操作者',
+    `business` varchar(20) DEFAULT NULL COMMENT '业务名称',
+    `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
+    `reserve` varchar(20) DEFAULT NULL COMMENT '预留字段',
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4;
 
 /*Data for the table `logs` */
 
 insert  into `logs`(`id`,`operator`,`business`,`operate_time`,`reserve`) values (1,'ocean','添加日志','2020-02-27 08:00:00',NULL),(2,'ocean','添加日志2','2020-02-27 08:00:00',NULL);
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+    `id` int(11) NOT NULL,
+    `name` varchar(20) DEFAULT NULL COMMENT '分类名称',
+    `remark` varchar(255) DEFAULT NULL COMMENT '描述',
+    `rank` int(8) DEFAULT NULL COMMENT '排序',
+    `image` varchar(255) DEFAULT NULL COMMENT '图片',
+    `parent` int(11) DEFAULT NULL COMMENT '父级id',
+    `status` tinyint(2) DEFAULT NULL COMMENT '状态（0-不显示，1-显示）',
+    `reserve1` varchar(64) DEFAULT NULL COMMENT '预留字段',
+    `reserve2` varchar(64) DEFAULT NULL COMMENT '预留字段',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

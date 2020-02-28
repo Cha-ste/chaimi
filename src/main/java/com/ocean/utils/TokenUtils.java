@@ -6,6 +6,8 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.ocean.redis.RedisService;
 import com.ocean.redis.UserPrefix;
 import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,7 @@ import java.util.Map;
  */
 @Component
 public class TokenUtils {
+    private static Logger logger = LoggerFactory.getLogger(TokenUtils.class);
     private static final String  SECRET = "shuXieChuanQiCongWoKaiShi2019999";
     private static final String  VALID = "valid";
     private static final String  EXPIRED = "expired";
@@ -31,6 +34,7 @@ public class TokenUtils {
 
     /**
      * 生成token，该方法只在用户登录成功后调用
+     * 一个token由三部分组成：header + payload + signature
      *
      * @param payload Map集合，可以存储用户id，token生成时间，token过期时间等自定义字段
      * @return token字符串,若失败则返回null
@@ -58,6 +62,7 @@ public class TokenUtils {
 
     /**
      * 验证token
+     * 判断是否存在于redis中即可
      */
     public static Boolean validToken(String token) {
         String value = redisService.get(UserPrefix.getByToken, token, String.class);
@@ -66,6 +71,8 @@ public class TokenUtils {
 
     /**
      * 校验token是否合法
+     * 这是通过取出payload中的值，根据自己的规则做验证
+     * 以下是根据过期时间校验的
      *
      * @param token 字符串
      * @return token状态
@@ -126,6 +133,30 @@ public class TokenUtils {
         if (redisToken == null) return false;
         long expiredTime = Long.parseLong(redisToken);
         return expiredTime <= System.currentTimeMillis();
+    }
+
+    /**
+     * 获取用户id
+     *
+     * @param token token字符串
+     * @return userId
+     */
+    public static Integer getUserId(String token) {
+        Integer userId = null;
+        try {
+            JWSObject jwsObject = JWSObject.parse(token);
+            Payload payload = jwsObject.getPayload();
+            JWSVerifier verifier = new MACVerifier(SECRET);
+            if (jwsObject.verify(verifier)) {
+                JSONObject jsonOBj = payload.toJSONObject();
+                if (jsonOBj.containsKey("uid")) {
+                    userId = jsonOBj.getAsNumber("uid").intValue();
+                }
+            }
+        } catch (Exception e) {
+            logger.info("token非法");
+        }
+        return userId;
     }
 
 }

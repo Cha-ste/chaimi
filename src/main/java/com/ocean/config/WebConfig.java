@@ -14,7 +14,7 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
-    @Override
+    /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/**")
@@ -23,7 +23,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         //多个拦截器
 //        registry.addInterceptor(loginInterceptor());
         super.addInterceptors(registry);
-    }
+    }*/
 
     @Bean
     public LoginInterceptor loginInterceptor() {

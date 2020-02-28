@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocean.mapper.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.ocean.entity.Category">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="rank" jdbcType="INTEGER" property="rank" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="parent" jdbcType="INTEGER" property="parent" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="reserve1" jdbcType="VARCHAR" property="reserve1" />
+    <result column="reserve2" jdbcType="VARCHAR" property="reserve2" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ocean.entity.Category">
+    insert into category (name, remark,
+      rank, image, parent, 
+      status, reserve1, reserve2
+      )
+    values (#{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{rank,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ocean.entity.Category">
+    update category
+    set name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      rank = #{rank,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      parent = #{parent,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      reserve1 = #{reserve1,jdbcType=VARCHAR},
+      reserve2 = #{reserve2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, remark, rank, image, parent, status, reserve1, reserve2
+    from category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, remark, rank, image, parent, status, reserve1, reserve2
+    from category
+  </select>
+  <select id="query" parameterType="string" resultMap="BaseResultMap">
+    select * from category
+    where 1 = 1
+    <if test="keyword != null and keyword != ''">
+      and name like concat('%', #{keyword}, '%')
+    </if>
+  </select>
+  <delete id="deleteBatch">
+    delete from category
+    where id in
+    <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <select id="getChild" resultMap="BaseResultMap">
+    select * from category where parent = #{parent}
+  </select>
+</mapper>

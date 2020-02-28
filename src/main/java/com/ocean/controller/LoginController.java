@@ -1,5 +1,6 @@
 package com.ocean.controller;
 
+import com.ocean.aop.BusinessLog;
 import com.ocean.entity.User;
 import com.ocean.redis.RedisService;
 import com.ocean.redis.UserPrefix;
@@ -39,6 +40,7 @@ public class LoginController {
      */
     @GetMapping("login")
     @ApiOperation("用户登录")
+    @BusinessLog("登录")
     public ResultBean<String> login (@Valid LoginVo loginVo) {
 
         User user = userService.getUserByMobile(loginVo.getMobile());
@@ -53,7 +55,7 @@ public class LoginController {
         Date date = new Date();
         payload.put("uid", user.getId());
         payload.put("ct", date.getTime());
-        payload.put("ext", date.getTime() + 1000*60*2); //设置两个小时过期
+        payload.put("ext", date.getTime() + 1000*60*60*2); //设置两个小时过期
         String token = TokenUtils.createToken(payload);
 
         redisService.set(UserPrefix.getByToken, token, user.getId(), Constants.TOKEN_EXPIRED_SECOND);

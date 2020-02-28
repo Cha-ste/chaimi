@@ -50,9 +50,10 @@
             <button class="submit-btn" onclick="login()">登录</button>
         </div>
     </div>
-    <form action="http://localhost:8080/banner/bannerUpload"
+    <form action="http://localhost:8080/upload"
           method="post" name="test" enctype="multipart/form-data">
         <input type="file" name="file"/>
+        <input type="text" hidden name="fileType" value="image"/>
         <input type="submit" value="提交"/>
     </form>
 </body>

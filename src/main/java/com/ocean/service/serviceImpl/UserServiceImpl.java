@@ -21,9 +21,9 @@ public class UserServiceImpl implements UserService{
     private UserMapper mapper;
 
     @Override
-    public User getUser(String id) {
+    public User getUser(Integer id) {
 
-        User model = mapper.selectByPrimaryKey(Integer.valueOf(id));
+        User model = mapper.selectByPrimaryKey(id);
         if (model == null) {
             logger.error("[getUser]delete User id={} fail", id);
             throw new RuntimeException("GET data fail");

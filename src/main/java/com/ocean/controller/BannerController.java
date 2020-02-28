@@ -2,11 +2,10 @@ package com.ocean.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import com.ocean.aop.BusinessLog;
 import com.ocean.entity.Banner;
-import com.ocean.enums.FileType;
 import com.ocean.service.BannerService;
 import com.ocean.utils.CommonUtil;
-import com.ocean.utils.FileUtil;
 import com.ocean.utils.StringUtils;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -61,6 +59,7 @@ public class BannerController {
 
     @PostMapping(value = "/save")
     @ApiOperation(value = "新增、修改banner")
+    @BusinessLog("编辑banner")
     public ResultBean save(@RequestBody Banner model) {
         Banner record = new Banner();
         BeanUtils.copyProperties(model, record);
@@ -75,6 +74,7 @@ public class BannerController {
 
     @PostMapping(value = "/delete")
     @ApiOperation(value = "删除banner")
+    @BusinessLog("删除banner")
     public ResultBean del(@RequestParam Integer id) {
         service.del(id);
         return ResultBean.success("删除成功");
@@ -82,19 +82,10 @@ public class BannerController {
 
     @PostMapping(value = "/deleteBatch")
     @ApiOperation(value = "批量删除banner")
+    @BusinessLog("批量删除banner")
     public ResultBean deleteBatch(@RequestParam Integer[] ids) {
         service.deleteBatch(Arrays.asList(ids));
         return ResultBean.success("删除成功");
-    }
-
-    @PostMapping("/upload")
-    @ApiOperation("banner图上传")
-    public ResultBean<String> bannerUpload(MultipartFile file) {
-        String filePath = FileUtil.uploadFile(file, FileType.IMAGE);
-        if(StringUtils.isBlank(filePath)) {
-            return ResultBean.ERROR;
-        }
-        return ResultBean.success(filePath);
     }
 
 }

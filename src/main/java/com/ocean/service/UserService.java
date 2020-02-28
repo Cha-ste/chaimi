@@ -8,7 +8,7 @@ import com.github.pagehelper.PageInfo;
 
 public interface UserService {
 
-    User getUser(String id);
+    User getUser(Integer id);
 
     void save(User model);
 

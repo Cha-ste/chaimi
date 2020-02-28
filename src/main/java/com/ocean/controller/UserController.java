@@ -30,8 +30,8 @@ public class UserController {
     private UserService service;
 
     @ApiOperation(value = "获取用户")
-    @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResultBean<User> get(String id) {
+    @GetMapping(value = "/get")
+    public ResultBean<User> get(@RequestParam Integer id) {
         try {
             User entity=service.getUser(id);
             return ResultBean.success(entity);
