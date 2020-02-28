@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResultBean<String> misParamOrMatchExceptionHandler(MissingServletRequestParameterException e) {
         logger.error("请求参数不全:【" + e.getMessage() + "】");
-        return ResultBean.error(CodeMsg.BAD_REQUEST);
+        return ResultBean.error(CodeMsg.BAD_REQUEST.fillArgs(e.getMessage()));
     }
 
     /**
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResultBean<String> illegalArgumentExceptionHandler(IllegalArgumentException e) {
         logger.error("非法输入:【" + e.getMessage() + "】");
-        return ResultBean.error(CodeMsg.ILLEGAL_ARGUMENT);
+        return ResultBean.error(CodeMsg.ILLEGAL_ARGUMENT.fillArgs(e.getMessage()));
     }
 
     /**

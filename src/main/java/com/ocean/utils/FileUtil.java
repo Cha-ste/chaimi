@@ -21,7 +21,7 @@ public class FileUtil {
      * @throws FileEmptyException 空文件
      */
     public static String uploadFile(MultipartFile file, FileType fileType) throws FileEmptyException {
-        if(file == null) {
+        if(file == null || file.isEmpty()) {
             throw new FileEmptyException("文件为空");
         }
         // 1、拼接文件保存目录

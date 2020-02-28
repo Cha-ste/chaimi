@@ -19,7 +19,7 @@ public class FileUploadController {
     @PostMapping("/upload")
     @ApiOperation(value = "文件上传",
             notes = "fileType 可选类型video-视频，image-图片，office-文档，other-其他")
-    public ResultBean<String> upload(@RequestParam MultipartFile file, @RequestParam String fileType) {
+    public ResultBean<String> upload(MultipartFile file, @RequestParam String fileType) {
         String filePath = FileUtil.uploadFile(file, FileType.valueOf(fileType.toUpperCase()));
         if (StringUtils.isBlank(filePath)) {
             return ResultBean.ERROR;
