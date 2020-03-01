@@ -44,7 +44,7 @@ public class BannerController {
             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String param) {
         HashMap<String, Object> paramMap = new HashMap<>();
-        if (StringUtils.isBlank(param)) {
+        if (!StringUtils.isBlank(param)) {
             try {
                 paramMap = new ObjectMapper().readValue(param, HashMap.class);
             } catch (IOException e) {
@@ -72,10 +72,10 @@ public class BannerController {
         return ResultBean.success("保存成功");
     }
 
-    @PostMapping(value = "/delete")
     @ApiOperation(value = "删除banner")
     @BusinessLog("删除banner")
-    public ResultBean del(@RequestParam Integer id) {
+    @RequestMapping(value = "/delete")
+    public ResultBean del(Integer id) {
         service.del(id);
         return ResultBean.success("删除成功");
     }
@@ -83,7 +83,7 @@ public class BannerController {
     @PostMapping(value = "/deleteBatch")
     @ApiOperation(value = "批量删除banner")
     @BusinessLog("批量删除banner")
-    public ResultBean deleteBatch(@RequestParam Integer[] ids) {
+    public ResultBean deleteBatch(Integer[] ids) {
         service.deleteBatch(Arrays.asList(ids));
         return ResultBean.success("删除成功");
     }

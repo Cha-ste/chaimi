@@ -78,6 +78,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.setContentType("application/json");
             response.setHeader("Cache-Control", "no-store");
             response.setCharacterEncoding("UTF-8");
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
             PrintWriter pw = response.getWriter();
             pw.write(content);
             pw.flush();

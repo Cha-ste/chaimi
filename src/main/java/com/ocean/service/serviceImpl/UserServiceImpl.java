@@ -1,5 +1,6 @@
 package com.ocean.service.serviceImpl;
 
+import com.ocean.exception.DataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService{
         User model = mapper.selectByPrimaryKey(id);
         if (model == null) {
             logger.error("[getUser]delete User id={} fail", id);
-            throw new RuntimeException("GET data fail");
+            throw new DataNotFoundException("GET data fail");
         }
         return model;
 
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService{
         int success = mapper.insertSelective(model);
         if (success <= 0) {
             logger.error("[addUser]add User={} fail",  model.toString());
-            throw new RuntimeException("Add data fail");
+            throw new DataNotFoundException("Add data fail");
         }
         return;
 
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService{
         int success = mapper.updateByPrimaryKeySelective(model);
         if (success <= 0) {
             logger.error("[updateUser]update User={} fail",  model.toString());
-            throw new RuntimeException("Modify data fail");
+            throw new DataNotFoundException("Modify data fail");
         }
         return;
 
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService{
         int success = mapper.deleteByPrimaryKey(id);
         if (success <= 0) {
             logger.error("[deleteUser]delete User id={} fail", id);
-            throw new RuntimeException("Del data fail");
+            throw new DataNotFoundException("Del data fail");
         }
         return;
 

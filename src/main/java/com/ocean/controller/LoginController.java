@@ -14,10 +14,7 @@ import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -38,10 +35,9 @@ public class LoginController {
     /**
      * 用户登录
      */
-    @GetMapping("login")
+    @PostMapping("login")
     @ApiOperation("用户登录")
-    @BusinessLog("登录")
-    public ResultBean<String> login (@Valid LoginVo loginVo) {
+    public ResultBean<String> login (@RequestBody @Valid LoginVo loginVo) {
 
         User user = userService.getUserByMobile(loginVo.getMobile());
         if (user == null) {

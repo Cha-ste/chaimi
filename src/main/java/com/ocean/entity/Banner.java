@@ -6,15 +6,23 @@
 */
 package com.ocean.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("banner")
 public class Banner {
     private Integer id;
 
+    @ApiModelProperty("名称")
     private String name;
 
+    @ApiModelProperty("标题")
     private String title;
 
+    @ApiModelProperty("图片")
     private String img;
 
+    @ApiModelProperty("描述")
     private String remark;
 
     private String reserve1;

@@ -59,7 +59,7 @@ public class CategoryController {
     @PostMapping(value = "/save")
     @ApiOperation(value = "编辑分类")
     @BusinessLog("编辑分类")
-    public ResultBean save(@RequestBody Category model) {
+    public ResultBean save(Category model) {
         if (CommonUtil.isNullOrZero(model.getId())) {
             service.save(model);
         } else {

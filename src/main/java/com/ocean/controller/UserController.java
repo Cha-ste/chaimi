@@ -20,7 +20,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 
 @RestController("UserController")
-@RequestMapping("/User")
+@RequestMapping("/user")
 @Api(tags = "用户相关接口")
 public class UserController {
 
@@ -34,6 +34,7 @@ public class UserController {
     public ResultBean<User> get(@RequestParam Integer id) {
         try {
             User entity=service.getUser(id);
+            entity.setPassword(null);
             return ResultBean.success(entity);
         } catch (Exception e) {
             logger.error("Fail:", e);

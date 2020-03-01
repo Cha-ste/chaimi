@@ -6,14 +6,14 @@ package com.ocean.vo;
  * @param <T>
  */
 public class ResultBean<T> {
-    private int code;
+    private int error_code;
     private String msg;
     private T data;
 
     public static ResultBean ERROR = new ResultBean(CodeMsg.SERVER_ERROR);
 
     private ResultBean(T data) {
-        code = 1;
+        error_code = 1;
         msg = "success";
         this.data = data;
     }
@@ -22,7 +22,7 @@ public class ResultBean<T> {
         if(codeMsg == null) {
             return;
         }
-        code = codeMsg.getCode();
+        error_code = codeMsg.getCode();
         msg = codeMsg.getMsg();
     }
 
@@ -60,8 +60,8 @@ public class ResultBean<T> {
     }
 
 
-    public int getCode() {
-        return code;
+    public int getError_code() {
+        return error_code;
     }
 
     public String getMsg() {

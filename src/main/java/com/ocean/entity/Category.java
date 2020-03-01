@@ -6,19 +6,29 @@
 */
 package com.ocean.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("分类")
 public class Category {
     private Integer id;
 
+    @ApiModelProperty("名称")
     private String name;
 
+    @ApiModelProperty("描述")
     private String remark;
 
+    @ApiModelProperty("排序")
     private Integer rank;
 
+    @ApiModelProperty("图片")
     private String image;
 
+    @ApiModelProperty("父级分类id")
     private Integer parent;
 
+    @ApiModelProperty("显示状态（0-隐藏，1显示）")
     private Byte status;
 
     private String reserve1;
