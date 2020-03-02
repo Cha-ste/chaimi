@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryMapper {
 
@@ -16,7 +17,7 @@ public interface CategoryMapper {
 
     int update(Category record);
 
-    List<Category> query(String keyword);
+    List<Category> query(@Param("map") Map<String, Object> map);
 
     void deleteBatch(@Param("ids") List<Integer> ids);
 

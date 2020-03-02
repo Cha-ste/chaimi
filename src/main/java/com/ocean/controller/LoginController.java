@@ -37,7 +37,7 @@ public class LoginController {
      */
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public ResultBean<String> login (@RequestBody @Valid LoginVo loginVo) {
+    public ResultBean<String> login (@Valid LoginVo loginVo) {
 
         User user = userService.getUserByMobile(loginVo.getMobile());
         if (user == null) {

@@ -5,6 +5,7 @@ import com.ocean.aop.BusinessLog;
 import com.ocean.entity.Category;
 import com.ocean.service.CategoryService;
 import com.ocean.utils.CommonUtil;
+import com.ocean.utils.JSONUtil;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController("CategoryController")
 @RequestMapping("/category")
@@ -47,12 +49,14 @@ public class CategoryController {
     }
 
     @GetMapping(value = "query")
-    @ApiOperation(value = "搜索分类")
+    @ApiOperation(value = "搜索分类", notes = "jsonStr是搜索条件包装成的JSON字符串")
     public ResultBean<PageInfo<Category>> query(
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String keyword) {
-        PageInfo<Category> pageInfo = service.query(pageNum, pageSize, keyword);
+            @RequestParam(required = false) String jsonStr) {
+        Map<String, Object> map = JSONUtil.parseMap(jsonStr);
+
+        PageInfo<Category> pageInfo = service.query(pageNum, pageSize, map);
         return ResultBean.success(pageInfo);
     }
 

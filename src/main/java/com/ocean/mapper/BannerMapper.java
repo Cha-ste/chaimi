@@ -3,8 +3,8 @@ package com.ocean.mapper;
 import com.ocean.entity.Banner;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface BannerMapper {
 
@@ -16,7 +16,7 @@ public interface BannerMapper {
 
     int update(Banner record);
 
-    List<Banner> query(@Param("map")HashMap<String, Object> paramMap);
+    List<Banner> query(@Param("map") Map<String, Object> paramMap);
 
     void deleteBatch(@Param("ids") List<Integer> ids);
 }

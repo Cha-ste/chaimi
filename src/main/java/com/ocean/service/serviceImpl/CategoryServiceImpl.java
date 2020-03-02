@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ocean.entity.Category;
 import com.ocean.service.CategoryService;
 import com.ocean.mapper.CategoryMapper;
@@ -82,10 +84,10 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public PageInfo<Category> query(int pageNum, int pageSize, String keyword) {
+    public PageInfo<Category> query(int pageNum, int pageSize, Map<String, Object> map) {
         PageHelper.startPage(pageNum, pageSize);
 
-        return new PageInfo<>(mapper.query(keyword));
+        return new PageInfo<>(mapper.query(map));
     }
 
     @Override

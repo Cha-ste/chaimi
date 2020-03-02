@@ -50,8 +50,14 @@
   <select id="query" parameterType="string" resultMap="BaseResultMap">
     select * from category
     where 1 = 1
-    <if test="keyword != null and keyword != ''">
-      and name like concat('%', #{keyword}, '%')
+    <if test="map != null">
+      <if test="map.keyword != null and map.keyword != ''">
+        and (name like concat('%', #{map.keyword}, '%')
+                 or remark like concat('%', #{map.keyword}, '%'))
+      </if>
+      <if test="map.status != null">
+        and status = #{map.status}
+      </if>
     </if>
   </select>
   <delete id="deleteBatch">

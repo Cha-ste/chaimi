@@ -94,3 +94,14 @@ CREATE TABLE `category` (
     `reserve2` varchar(64) DEFAULT NULL COMMENT '预留字段',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `grid`;
+CREATE TABLE `grid` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(32) DEFAULT NULL COMMENT '六宫格名称',
+    `title` varchar(64) DEFAULT NULL COMMENT '六宫格标题',
+    `category_id` int(11) DEFAULT NULL COMMENT '所属分类',
+    `image` varchar(255) DEFAULT NULL COMMENT '图片',
+    `reserve` varchar(32) DEFAULT NULL COMMENT '预留字段',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='六宫格表';

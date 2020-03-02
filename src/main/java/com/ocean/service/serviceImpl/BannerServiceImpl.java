@@ -1,17 +1,18 @@
 package com.ocean.service.serviceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.ocean.entity.Banner;
 import com.ocean.exception.DataNotFoundException;
+import com.ocean.mapper.BannerMapper;
+import com.ocean.service.BannerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
+
 import java.util.List;
-import com.ocean.entity.Banner;
-import com.ocean.service.BannerService;
-import com.ocean.mapper.BannerMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import java.util.Map;
 
 @Service
 public class BannerServiceImpl implements BannerService{
@@ -73,7 +74,7 @@ public class BannerServiceImpl implements BannerService{
     }
 
     @Override
-    public PageInfo<Banner> query(int pageNum, int pageSize, HashMap<String, Object> paramMap) {
+    public PageInfo<Banner> query(int pageNum, int pageSize, Map<String, Object> paramMap) {
         PageHelper.startPage(pageNum, pageSize);
 
         return new PageInfo<>(mapper.query(paramMap));

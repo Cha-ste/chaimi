@@ -1,9 +1,10 @@
 package com.ocean.service;
 
-import java.util.HashMap;
-import java.util.List;
-import com.ocean.entity.Banner;
 import com.github.pagehelper.PageInfo;
+import com.ocean.entity.Banner;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface BannerService {
@@ -16,7 +17,7 @@ public interface BannerService {
 
     void del(Integer id);
 
-    PageInfo<Banner> query(int currentPage, int itemsPerPage, HashMap<String, Object> paramMap);
+    PageInfo<Banner> query(int currentPage, int itemsPerPage, Map<String, Object> paramMap);
 
     void deleteBatch(List<Integer> ids);
 }

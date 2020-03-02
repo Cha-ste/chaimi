@@ -1,24 +1,21 @@
 package com.ocean.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.ocean.aop.BusinessLog;
 import com.ocean.entity.Banner;
 import com.ocean.service.BannerService;
 import com.ocean.utils.CommonUtil;
-import com.ocean.utils.StringUtils;
+import com.ocean.utils.JSONUtil;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 
 @RestController("BannerController")
 @RequestMapping("/banner")
@@ -42,17 +39,9 @@ public class BannerController {
     public ResultBean<PageInfo<Banner>> query(
             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
             @RequestParam(required = false, defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String param) {
-        HashMap<String, Object> paramMap = new HashMap<>();
-        if (!StringUtils.isBlank(param)) {
-            try {
-                paramMap = new ObjectMapper().readValue(param, HashMap.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            paramMap.put("orderBy", "id desc");
-        }
+            @RequestParam(required = false) String jsonStr) {
+        Map<String, Object> paramMap = JSONUtil.parseMap(jsonStr);
+
         PageInfo<Banner> pageInfo = service.query(pageNum, pageSize, paramMap);
         return ResultBean.success(pageInfo);
     }
@@ -60,14 +49,11 @@ public class BannerController {
     @PostMapping(value = "/save")
     @ApiOperation(value = "新增、修改banner")
     @BusinessLog("编辑banner")
-    public ResultBean save(@RequestBody Banner model) {
-        Banner record = new Banner();
-        BeanUtils.copyProperties(model, record);
-
-        if (CommonUtil.isNullOrZero(record.getId())) {
-            service.save(record);
+    public ResultBean save(Banner model) {
+        if (CommonUtil.isNullOrZero(model.getId())) {
+            service.save(model);
         } else {
-            service.update(record);
+            service.update(model);
         }
         return ResultBean.success("保存成功");
     }

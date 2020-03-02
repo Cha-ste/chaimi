@@ -1,6 +1,6 @@
 package ${serviceUrl};
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import ${url};
 import com.github.pagehelper.PageInfo;
@@ -16,7 +16,7 @@ public interface ${name}Service {
 
     void del(${primaryType} ${primaryKey});
 
-    PageInfo<${name}> query(int currentPage, int itemsPerPage, HashMap<String, Object> paramMap);
+    PageInfo<${name}> query(int currentPage, int itemsPerPage, Map<String, Object> paramMap);
 
     void deleteBatch(List<Integer> ids);
 }
