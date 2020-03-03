@@ -1,4 +1,4 @@
-package ${controllerUrl};
+package com.ocean.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocean.aop.BusinessLog;
@@ -9,8 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ocean.utils.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ${url};
-import ${serviceUrl}.${name}Service;
+import com.ocean.entity.SpecificationItem;
+import com.ocean.service.SpecificationItemService;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,39 +21,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
 
-@RestController("${capitalName}Controller")
-@RequestMapping("/${capitalName}")
-@Api(tags="")
-public class ${name}Controller {
+@RestController("SpecificationItemController")
+@RequestMapping("/SpecificationItem")
+@Api(tags="规格值相关接口")
+public class SpecificationItemController {
 
-    public static Logger logger = LoggerFactory.getLogger(${name}Controller.class);
+    public static Logger logger = LoggerFactory.getLogger(SpecificationItemController.class);
 
     @Autowired
-    private ${name}Service service;
+    private SpecificationItemService service;
 
     @GetMapping(value = "/get")
-    @ApiOperation(value="")
-    public ResultBean<${name}> get(@RequestParam Integer ${primaryKey}) {
-        ${name} entity=service.get${name}(id);
+    @ApiOperation(value="获取规格值")
+    public ResultBean<SpecificationItem> get(@RequestParam Integer id) {
+        SpecificationItem entity=service.getSpecificationItem(id);
         return ResultBean.success(entity);
     }
 
     @GetMapping(value = "query")
-    @ApiOperation(value="")
-    public ResultBean<PageInfo<${name}>> query(
+    @ApiOperation(value="搜索规格值")
+    public ResultBean<PageInfo<SpecificationItem>> query(
         @RequestParam(defaultValue = "1") Integer pageNum,
         @RequestParam(defaultValue = "10") Integer pageSize,
         @RequestParam(required = false) String jsonStr) {
         Map<String, Object> paramMap = JSONUtil.parseMap(jsonStr);
-        PageInfo<${name}> pageInfo = service.query(pageNum, pageSize, paramMap);
+        PageInfo<SpecificationItem> pageInfo = service.query(pageNum, pageSize, paramMap);
         return ResultBean.success(pageInfo);
     }
 
+    @GetMapping("/getListBySpecification")
+    @ApiOperation("获取规格下的所有规格值")
+    public ResultBean<List<SpecificationItem>> getListBySpecification(@RequestParam Integer specificationId) {
+        List<SpecificationItem> list = service.getListBySpecification(specificationId);
+        return ResultBean.success(list);
+    }
+
     @PostMapping(value = "/save")
-    @ApiOperation(value="")
-    public ResultBean save(${name} model) {
+    @ApiOperation(value="编辑规格值")
+    @BusinessLog("编辑规格值")
+    public ResultBean save(SpecificationItem model) {
         if (CommonUtil.isNullOrZero(model.getId())) {
             service.save(model);
         } else {
@@ -64,15 +73,16 @@ public class ${name}Controller {
     }
 
     @PostMapping(value = "/delete")
-    @ApiOperation(value="")
-    public ResultBean del(@RequestParam Integer ${primaryKey}) {
-        service.del(${primaryKey});
+    @ApiOperation(value="删除规格值")
+    @BusinessLog("删除规格值")
+    public ResultBean del(@RequestParam Integer id) {
+        service.del(id);
         return ResultBean.success("删除成功");
     }
 
     @PostMapping(value = "/deleteBatch")
     @ApiOperation(value="批量删除")
-    @BusinessLog(value="批量删除")
+    @BusinessLog(value="批量删除规格值")
     public ResultBean deleteBatch(@RequestParam Integer[] ids) {
         service.deleteBatch(Arrays.asList(ids));
         return ResultBean.success("删除成功");
