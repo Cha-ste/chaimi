@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
-public class LoginVo {
+public class LoginVO {
     @NotNull(message = "手机号码不能为空")
     @IsMobile
     private String mobile;

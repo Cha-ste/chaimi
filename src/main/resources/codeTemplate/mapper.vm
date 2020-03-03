@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ${name}Mapper {
 
-    int deleteByPrimaryKey(${primaryType} ${primaryKey});
+    int deleteByPrimaryKey(Integer ${primaryKey});
 
     int insert(${name} record);
 
     ${name} selectByPrimaryKey(Integer id);
 
-    int update(${name} record);
+    int updateByPrimaryKey(${name} record);
 
     List<${name}> query(@Param("map")Map<String, Object> paramMap);
 

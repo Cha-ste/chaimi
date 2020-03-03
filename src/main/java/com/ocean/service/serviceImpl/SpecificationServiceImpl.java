@@ -1,4 +1,4 @@
-package ${serviceImplUrl};
+package com.ocean.service.serviceImpl;
 
 import com.ocean.exception.DataNotFoundException;
 import org.slf4j.Logger;
@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.List;
-import ${url};
-import ${serviceUrl}.${name}Service;
-import ${mapperUrl}.${name}Mapper;
+import com.ocean.entity.Specification;
+import com.ocean.service.SpecificationService;
+import com.ocean.mapper.SpecificationMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
-public class ${name}ServiceImpl implements ${name}Service{
+public class SpecificationServiceImpl implements SpecificationService{
 
-    private static final Logger logger = LoggerFactory.getLogger(${name}ServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SpecificationServiceImpl.class);
 
     @Autowired
-    private ${name}Mapper mapper;
+    private SpecificationMapper mapper;
 
     @Override
-    public ${name} get${name}(Integer ${primaryKey}) {
+    public Specification getSpecification(Integer id) {
 
-        ${name} model = mapper.selectByPrimaryKey(${primaryKey});
+        Specification model = mapper.selectByPrimaryKey(id);
         if (model == null) {
-            logger.error("[get${name}]delete ${name} ${primaryKey}={} fail", ${primaryKey});
+            logger.error("[getSpecification]delete Specification id={} fail", id);
             throw new DataNotFoundException("GET data fail");
         }
         return model;
@@ -34,10 +34,10 @@ public class ${name}ServiceImpl implements ${name}Service{
     }
 
     @Override
-    public void save(${name} model) {
+    public void save(Specification model) {
         int success = mapper.insert(model);
         if (success <= 0) {
-            logger.error("[add${name}]add ${name}={} fail",  model.toString());
+            logger.error("[addSpecification]add Specification={} fail",  model.toString());
             throw new DataNotFoundException("Add data fail");
         }
         return;
@@ -45,10 +45,10 @@ public class ${name}ServiceImpl implements ${name}Service{
     }
 
     @Override
-    public void update(${name} model) {
+    public void update(Specification model) {
         int success = mapper.updateByPrimaryKey(model);
         if (success <= 0) {
-            logger.error("[update${name}]update ${name}={} fail",  model.toString());
+            logger.error("[updateSpecification]update Specification={} fail",  model.toString());
             throw new DataNotFoundException("Modify data fail");
         }
         return;
@@ -56,11 +56,11 @@ public class ${name}ServiceImpl implements ${name}Service{
     }
 
     @Override
-    public void del(Integer ${primaryKey}) {
+    public void del(Integer id) {
 
-        int success = mapper.deleteByPrimaryKey(${primaryKey});
+        int success = mapper.deleteByPrimaryKey(id);
         if (success <= 0) {
-            logger.error("[delete${name}]delete ${name} ${primaryKey}={} fail", ${primaryKey});
+            logger.error("[deleteSpecification]delete Specification id={} fail", id);
             throw new DataNotFoundException("Del data fail");
         }
         return;
@@ -73,7 +73,7 @@ public class ${name}ServiceImpl implements ${name}Service{
     }
 
     @Override
-    public PageInfo<${name}> query(int pageNum, int pageSize, Map<String, Object> paramMap) {
+    public PageInfo<Specification> query(int pageNum, int pageSize, Map<String, Object> paramMap) {
         PageHelper.startPage(pageNum, pageSize);
 
         return new PageInfo<>(mapper.query(paramMap));

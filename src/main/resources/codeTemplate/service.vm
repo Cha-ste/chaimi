@@ -8,13 +8,13 @@ import com.github.pagehelper.PageInfo;
 
 public interface ${name}Service {
 
-    ${name} get${name}(${primaryType} ${primaryKey});
+    ${name} get${name}(Integer ${primaryKey});
 
     void save(${name} model);
 
     void update(${name} model);
 
-    void del(${primaryType} ${primaryKey});
+    void del(Integer ${primaryKey});
 
     PageInfo<${name}> query(int currentPage, int itemsPerPage, Map<String, Object> paramMap);
 

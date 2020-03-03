@@ -1,15 +1,13 @@
 package com.ocean.controller;
 
-import com.ocean.aop.BusinessLog;
 import com.ocean.entity.User;
 import com.ocean.redis.RedisService;
 import com.ocean.redis.UserPrefix;
 import com.ocean.service.UserService;
 import com.ocean.utils.Constants;
-import com.ocean.utils.JedisUtils;
 import com.ocean.utils.TokenUtils;
 import com.ocean.vo.CodeMsg;
-import com.ocean.vo.LoginVo;
+import com.ocean.vo.LoginVO;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +35,7 @@ public class LoginController {
      */
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public ResultBean<String> login (@Valid LoginVo loginVo) {
+    public ResultBean<String> login (@Valid LoginVO loginVo) {
 
         User user = userService.getUserByMobile(loginVo.getMobile());
         if (user == null) {
