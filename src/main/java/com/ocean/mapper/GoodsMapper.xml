@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocean.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.ocean.entity.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="headline" jdbcType="VARCHAR" property="headline" />
+    <result column="subhead" jdbcType="VARCHAR" property="subhead" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="TINYINT" property="discount" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="goods_item_id" jdbcType="INTEGER" property="goodsItemId" />
+    <result column="if_putaway" jdbcType="TINYINT" property="ifPutaway" />
+    <result column="primary_image" jdbcType="VARCHAR" property="primaryImage" />
+    <result column="theme_image" jdbcType="VARCHAR" property="themeImage" />
+    <result column="carousel_image" jdbcType="VARCHAR" property="carouselImage" />
+    <result column="detail_image" jdbcType="VARCHAR" property="detailImage" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="specification_id" jdbcType="VARCHAR" property="specificationId" />
+    <result column="visible_grid_id" jdbcType="INTEGER" property="visibleGridId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="if_test" jdbcType="TINYINT" property="ifTest" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ocean.entity.Goods">
+    insert into goods (headline, subhead,
+      price, discount, category_id, 
+      goods_item_id, if_putaway, primary_image,
+      theme_image, carousel_image, detail_image, 
+      tags, specification_id, visible_grid_id, 
+      remark, if_test)
+    values (#{headline,jdbcType=VARCHAR}, #{subhead,jdbcType=VARCHAR},
+      #{price,jdbcType=DECIMAL}, #{discount,jdbcType=TINYINT}, #{categoryId,jdbcType=INTEGER}, 
+      #{goodsItemId,jdbcType=INTEGER}, #{ifPutaway,jdbcType=TINYINT}, #{primaryImage,jdbcType=VARCHAR},
+      #{themeImage,jdbcType=VARCHAR}, #{carouselImage,jdbcType=VARCHAR}, #{detailImage,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{specificationId,jdbcType=VARCHAR}, #{visibleGridId,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{ifTest,jdbcType=TINYINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ocean.entity.Goods">
+    update goods
+    set headline = #{headline,jdbcType=VARCHAR},
+      subhead = #{subhead,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=TINYINT},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      goods_item_id = #{goodsItemId,jdbcType=INTEGER},
+      if_putaway = #{ifPutaway,jdbcType=TINYINT},
+      primary_image = #{primaryImage,jdbcType=VARCHAR},
+      theme_image = #{themeImage,jdbcType=VARCHAR},
+      carousel_image = #{carouselImage,jdbcType=VARCHAR},
+      detail_image = #{detailImage,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      specification_id = #{specificationId,jdbcType=VARCHAR},
+      visible_grid_id = #{visibleGridId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      if_test = #{ifTest,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, headline, subhead, price, discount, category_id, goods_item_id, if_putaway,
+    primary_image, theme_image, carousel_image, detail_image, tags, specification_id, 
+    visible_grid_id, remark, if_test
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, headline, subhead, price, discount, category_id, goods_item_id, if_putaway,
+    primary_image, theme_image, carousel_image, detail_image, tags, specification_id, 
+    visible_grid_id, remark, if_test
+    from goods
+  </select>
+  <select id="query" resultMap="BaseResultMap">
+    select * from goods
+    where 1 = 1
+    <if test="map != null">
+      <if test="map.keyword != null and map.keyword != ''">
+        and (headline like concat('%', #{map.keyword}, '%')
+                 or subhead like concat('%', #{map.keyword}, '%'))
+      </if>
+      <if test="map.categoryId != null">
+        and category_id = #{map.categoryId}
+      </if>
+      <if test="map.ifPutaway != null">
+        <if test="map.categoryId != null">
+          and if_putaway = #{map.ifPutaway}
+        </if>
+      </if>
+    </if>
+  </select>
+  <delete id="deleteBatch" parameterType="list">
+    delete from goods
+    where id in
+    <foreach collection="ids" index="index" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <update id="putaway">
+    update goods
+    set if_putaway = #{value}
+    where id = #{id}
+  </update>
+</mapper>

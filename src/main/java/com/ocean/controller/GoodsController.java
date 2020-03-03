@@ -2,8 +2,9 @@ package com.ocean.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ocean.aop.BusinessLog;
-import com.ocean.entity.Specification;
-import com.ocean.service.SpecificationService;
+import com.ocean.entity.Goods;
+import com.ocean.enums.PutawayEnum;
+import com.ocean.service.GoodsService;
 import com.ocean.utils.CommonUtil;
 import com.ocean.utils.JSONUtil;
 import com.ocean.vo.ResultBean;
@@ -17,38 +18,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-@RestController("SpecificationController")
-@RequestMapping("/specification")
-@Api(tags = "规格相关接口")
-public class SpecificationController {
+@RestController("GoodsController")
+@RequestMapping("/goods")
+@Api(tags = "商品相关接口")
+public class GoodsController {
 
-    public static Logger logger = LoggerFactory.getLogger(SpecificationController.class);
+    public static Logger logger = LoggerFactory.getLogger(GoodsController.class);
 
     @Autowired
-    private SpecificationService service;
+    private GoodsService service;
 
     @GetMapping(value = "/get")
-    @ApiOperation(value = "获取规格详情")
-    public ResultBean<Specification> get(@RequestParam Integer id) {
-        Specification entity = service.getSpecification(id);
+    @ApiOperation(value = "获取商品详情")
+    public ResultBean<Goods> get(@RequestParam Integer id) {
+        Goods entity = service.getGoods(id);
         return ResultBean.success(entity);
     }
 
     @GetMapping(value = "query")
-    @ApiOperation(value = "搜索规格")
-    public ResultBean<PageInfo<Specification>> query(
+    @ApiOperation(value = "搜索商品")
+    public ResultBean<PageInfo<Goods>> query(
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String jsonStr) {
         Map<String, Object> paramMap = JSONUtil.parseMap(jsonStr);
-        PageInfo<Specification> pageInfo = service.query(pageNum, pageSize, paramMap);
+        PageInfo<Goods> pageInfo = service.query(pageNum, pageSize, paramMap);
         return ResultBean.success(pageInfo);
     }
 
     @PostMapping(value = "/save")
-    @ApiOperation(value = "编辑规格")
-    @BusinessLog(value = "编辑规格")
-    public ResultBean save(Specification model) {
+    @ApiOperation(value = "编辑商品")
+    @BusinessLog("编辑商品")
+    /**
+     * 存储需要注意的字段
+     *
+     *
+     */
+    public ResultBean save(Goods model) {
         if (CommonUtil.isNullOrZero(model.getId())) {
             service.save(model);
         } else {
@@ -59,8 +65,8 @@ public class SpecificationController {
     }
 
     @PostMapping(value = "/delete")
-    @ApiOperation(value = "删除规格")
-    @BusinessLog(value = "删除规格")
+    @ApiOperation(value = "删除商品")
+    @BusinessLog("删除商品（慎用）")
     public ResultBean del(@RequestParam Integer id) {
         service.del(id);
         return ResultBean.success("删除成功");
@@ -68,9 +74,18 @@ public class SpecificationController {
 
     @PostMapping(value = "/deleteBatch")
     @ApiOperation(value = "批量删除")
-    @BusinessLog(value = "批量删除规格")
+    @BusinessLog(value = "批量删除")
     public ResultBean deleteBatch(@RequestParam Integer[] ids) {
         service.deleteBatch(Arrays.asList(ids));
+        return ResultBean.success("删除成功");
+    }
+
+    @PostMapping(value = "/putaway")
+    @ApiOperation(value = "上下架商品")
+    @BusinessLog("上下架商品")
+    public ResultBean putaway(@RequestParam Integer id,
+                              @RequestParam String ifPutaway) {
+        service.putaway(id, PutawayEnum.valueOf(ifPutaway));
         return ResultBean.success("删除成功");
     }
 
