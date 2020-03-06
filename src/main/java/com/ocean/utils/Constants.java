@@ -5,4 +5,5 @@ package com.ocean.utils;
  */
 public class Constants {
     public static int TOKEN_EXPIRED_SECOND = 60 * 60 * 2; //token有效时间（2小时）
+    public static String SEMICOLON = ";";
 }

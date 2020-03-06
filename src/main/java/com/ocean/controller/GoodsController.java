@@ -7,6 +7,7 @@ import com.ocean.enums.PutawayEnum;
 import com.ocean.service.GoodsService;
 import com.ocean.utils.CommonUtil;
 import com.ocean.utils.JSONUtil;
+import com.ocean.vo.GoodsVO;
 import com.ocean.vo.ResultBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +31,12 @@ public class GoodsController {
 
     @GetMapping(value = "/get")
     @ApiOperation(value = "获取商品详情")
-    public ResultBean<Goods> get(@RequestParam Integer id) {
+    public ResultBean<GoodsVO> get(@RequestParam Integer id) {
         Goods entity = service.getGoods(id);
-        return ResultBean.success(entity);
+        GoodsVO goodsVO = new GoodsVO();
+        // 转换VO
+        goodsVO.setProperties(entity);
+        return ResultBean.success(goodsVO);
     }
 
     @GetMapping(value = "query")
@@ -51,14 +55,18 @@ public class GoodsController {
     @BusinessLog("编辑商品")
     /**
      * 存储需要注意的字段
-     *
+     * carousel_image：轮播图（多个用 ;分隔）
+     * tags：标签（多个用 ;分隔）
+     * specificationId：规格（多个用 ;分隔）
      *
      */
-    public ResultBean save(Goods model) {
-        if (CommonUtil.isNullOrZero(model.getId())) {
-            service.save(model);
+    public ResultBean save(GoodsVO vo) {
+        // 转换entity
+        Goods goods = vo.copyRepositories();
+        if (CommonUtil.isNullOrZero(goods.getId())) {
+            service.save(goods);
         } else {
-            service.update(model);
+            service.update(goods);
         }
 
         return ResultBean.success("保存成功");
