@@ -11,8 +11,9 @@ import java.io.IOException;
  * 文件处理工具类
  */
 public class FileUtil {
-    private static String FOLDER = "E:/";
-    private static String FILE_PATH = "upload/";
+    private static String PROJECT_PATH = "\\src\\main\\resources\\static\\upload\\";
+    private static String FILE_PATH = System.getProperty("user.dir");
+    private static String UPLOAD_FOLDER = "\\static\\upload\\";
     /**
      * 根据文件类型上传文件
      * @param file 文件
@@ -25,7 +26,7 @@ public class FileUtil {
             throw new FileEmptyException("文件为空");
         }
         // 1、拼接文件保存目录
-        String filePath = FOLDER + FILE_PATH + fileType.getValue();
+        String filePath = FILE_PATH + PROJECT_PATH + fileType.getValue();
         // 2、创建文件夹链接
         File folder = new File(filePath);
         // 3、判断文件夹是否存在，否则创建
@@ -34,16 +35,16 @@ public class FileUtil {
         }
         // 4、生成需要返回的文件名（时间戳加原本的文件名）
         Long millisSecond = DateUtils.getCurrentMillisSecond();
-        String originalFilename = file.getOriginalFilename();
-        String realPath = filePath + "/" + millisSecond + "-" + originalFilename;
+        String originalFilename = "\\" + millisSecond + "-" + file.getOriginalFilename();
+        String realPath = filePath + originalFilename;
         // 5、使用文件转换，把MultipartFile写入磁盘
         try {
             file.transferTo(new File(realPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 6、返回存储路径
-        return realPath;
+        // 6、返回存储相对路径
+        return UPLOAD_FOLDER + fileType.getValue() + originalFilename;
     }
 
 }

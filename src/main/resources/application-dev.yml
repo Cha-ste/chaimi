@@ -1,36 +1,15 @@
-mybatis:
-  mapper-locations: classpath*:com/ocean/mapper/*Mapper.xml #对应你的mapper.xml映射文件
-  type-aliases-package: com.ocean.entity #对应实体类
-  configuration:
-    map-underscore-to-camel-case: true
+
+# 控制台打印SQL语句
 logging:
-  # logback.xml路径，默认为classpath:logback.xml
-  config: classpath:lockback.xml
-
-spring:
-  profiles:
-    active: dev
-  datasource:
-    #使用druid连接池
-    type: com.alibaba.druid.pool.DruidDataSource
-  # 文件上传大小限制
+  level:
+    com.ocean.mapper: DEBUG
+server:
+  port: 8081
   servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 100MB
+    context-path: /chaimi
 
-# redis 配置
-redis:
-  host: 127.0.0.1
-  port: 6379
-  timeout: 3000
-  password:
-  poolMaxTotal: 10
-  poolMaxIdle: 10
-  poolMaxWait: 3000
-
-# 自定义的主数据源配置信息
-primary:
+# 自定义的从数据源配置信息
+back:
   datasource:
     #druid相关配置
     druid:
@@ -38,7 +17,7 @@ primary:
       filters: stat
       driverClassName: com.mysql.jdbc.Driver
       #配置基本属性
-      url: jdbc:mysql://127.0.0.1:3306/chaimi?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false&serverTimezone=GMT%2b8
+      url: jdbc:mysql://127.0.0.1:3306/miaosha?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&useSSL=false
       username: root
       password: 123456
       #配置初始化大小/最小/最大
@@ -58,4 +37,3 @@ primary:
       #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
       poolPreparedStatements: false
       maxPoolPreparedStatementPerConnectionSize: 20
-

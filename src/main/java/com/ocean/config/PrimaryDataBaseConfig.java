@@ -1,7 +1,9 @@
 package com.ocean.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.github.pagehelper.PageInterceptor;
 import lombok.Data;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -15,6 +17,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * 主数据源配置类
@@ -58,6 +61,18 @@ public class PrimaryDataBaseConfig extends DataSourceProp{
         sessionFactory.setDataSource(primaryDataSource);  // 设置数据源bean
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
                 .getResources(PrimaryDataBaseConfig.MAPPER_LOCATION));  // 设置mapper文件路径
+
+        //分页插件
+        Interceptor interceptor = new PageInterceptor();
+        Properties properties = new Properties();
+        properties.setProperty("helperDialect", "mysql");
+        properties.setProperty("offsetAsPageNum", "true");
+        properties.setProperty("rowBoundsWithCount", "true");
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("supportMethodsArguments","true");
+        properties.setProperty("params","pageNum=pageNumKey;pageSize=pageSizeKey;");
+        interceptor.setProperties(properties);
+        sessionFactory.setPlugins(new Interceptor[] {interceptor});
 
         return sessionFactory.getObject();
     }
