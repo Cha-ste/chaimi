@@ -43,10 +43,12 @@
     select id, name, title, img, remark, reserve1
     from banner
     where 1 = 1
-    <if test="keyword ！= null and keyword != ''">
-      and (name like concat('%', #{keyword}, '%')
-               or title like concat('%', #{keyword}, '%')
-               or remark like concat('%', #{keyword}, '%'))
+    <if test="map != null">
+      <if test="map.keyword ！= null and map.keyword != ''">
+        and (name like concat('%', #{map.keyword}, '%')
+        or title like concat('%', #{map.keyword}, '%')
+        or remark like concat('%', #{map.keyword}, '%'))
+      </if>
     </if>
   </select>
   <delete id="deleteBatch">

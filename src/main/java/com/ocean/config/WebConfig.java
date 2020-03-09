@@ -20,7 +20,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/logout")
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+                .excludePathPatterns("/static/**", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
         //多个拦截器
 //        registry.addInterceptor(loginInterceptor());
         super.addInterceptors(registry);
@@ -34,12 +34,13 @@ public class WebConfig extends WebMvcConfigurationSupport {
     /**
      * 防止@EnableMvc把默认的静态资源路径覆盖了，手动设置的方式
      *
+     *
      * @param registry
      */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 解决静态资源无法访问
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         // 解决swagger无法访问
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 
