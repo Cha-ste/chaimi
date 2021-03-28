@@ -3,13 +3,13 @@ package com.ocean.baseframework.jvm;
 /**
  * 基本类型传参机制
  *
- * 由于基本类型的值在虚拟机中存放位置是
+ * 由于基本类型和字面量的值在虚拟机中存放位置是虚拟机栈
  */
 public class BaseType {
     public static void main(String[] args) {
 
-        Integer n = new Integer(10);
-        Integer m = new Integer(20);
+        Integer n = new Integer(1000);
+        Integer m = new Integer(2000);
         swap(n, m);
         System.out.println(n);
         System.out.println(m);

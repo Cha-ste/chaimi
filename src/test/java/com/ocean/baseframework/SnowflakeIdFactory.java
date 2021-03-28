@@ -4,6 +4,9 @@ package com.ocean.baseframework;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * 雪花算法
+ */
 public class SnowflakeIdFactory {
 
     private final long twepoch = 1288834974657L;
